@@ -9,6 +9,7 @@ import L from 'leaflet';
 import { CreateBookingRequest } from "../../APIRequest/bookingApiRequest.js";
 import { getToken, getUserDetails } from "../../helper/SessionHelper.js";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 // Fix default icon issue
 delete L.Icon.Default.prototype._getIconUrl;
@@ -145,14 +146,49 @@ export const BookingForm = () => {
     };
     const Navigate = useNavigate();
 
+
+    const calculateDistance = (pickupL, dropL) => {
+        if (!pickupL || !dropL) return 0;
+
+        const [lat1, lon1] = pickupL.split(',').map(Number);
+        const [lat2, lon2] = dropL.split(',').map(Number);
+
+        const toRad = (value) => (value * Math.PI) / 180;
+
+        const R = 6371; // Radius of Earth in km
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; // Distance in KM
+    };
+
+
+    const calculatePrice = (distance) => {
+        const baseFare = 30;        // Minimum fare
+        const perKmRate = 15;       // Per km charge
+        return Math.max(baseFare, distance * perKmRate).toFixed(2); // 2 decimal places
+    };
+
+
+
+
+
     const handleSubmit = async () => {
+
         try {
-            if (!getToken()) {
-                navigate("/login"); // Fixed: lowercase 'navigate'
+            const user = getUserDetails();
+
+            if (!user) {
+                Navigate("/login"); // Fixed: lowercase 'navigate'
                 return; // Added return to prevent further execution
             }
 
-            const user = getUserDetails();
 
             // Check if user details are valid
             if (!user || !user.id) {
@@ -160,17 +196,23 @@ export const BookingForm = () => {
                 // Handle error appropriately (show message, redirect, etc.)
                 return;
             }
-
+            const distance = calculateDistance(bookingFormValue.pickupL, bookingFormValue.dropL);
+            const price = calculatePrice(distance);
             const updateBookingFormValue = {
                 ...bookingFormValue,
-                riderID: user.id
+                riderID: user.id,
+                distance: distance.toFixed(2),
+                price,
             };
 
             const result = await CreateBookingRequest(updateBookingFormValue);
+            if (result.status === 201 && result.data?.data?._id) {
+                const bookingId = result.data.data._id;
 
-            // Handle success
-            console.log("Booking created successfully:", result);
-            // Add success handling here (show success message, redirect, etc.)
+                // Navigate to checkout page
+                Navigate(`/checkout/${bookingId}`);
+            }
+
 
         } catch (error) {
             console.error("Error creating booking:", error);

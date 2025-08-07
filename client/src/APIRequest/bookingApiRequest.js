@@ -1,10 +1,10 @@
 import store from "../redux/store/store";
-import { HideLoader, ShowLoader } from "../redux/state-slice/settings-slice";
+import { HideLoader, ShowLoader } from "../redux/state-slice/setting-slice";
 import axios from "axios";
 import { ErrorToast, SuccessToast } from "../helper/FormHelper";
 import { getToken } from "../helper/SessionHelper";
 import { BaseURL } from "../helper/config";
-import { SetInfoList } from "../redux/state-slice/info-slice.js";
+import { SetBooking } from "../redux/state-slice/booking-slice";
 const AxiosHeader = { headers: { "token": getToken() } }
 
 
@@ -14,10 +14,13 @@ export async function CreateBookingRequest(PostBody) {
         store.dispatch(ShowLoader());
         let URL = BaseURL + "/create-booking";
         const result = await axios.post(URL, PostBody, AxiosHeader)
+        debugger
         store.dispatch(HideLoader())
-        if (result.status === 200) {
+        debugger
+        if (result.status === 201) {
+            debugger
             SuccessToast('Booking Successfull!')
-            return result;
+            return result
         }
     }
     catch (e) {
@@ -28,13 +31,13 @@ export async function CreateBookingRequest(PostBody) {
 
 
 
-export async function ReadInfoRequest() {
+export async function BookingDetailRequest(ObjectID) {
     try {
         store.dispatch(ShowLoader());
-        let URL = BaseURL + "/read-info";
+        let URL = BaseURL + "/booking-detail/" + ObjectID;
         const result = await axios.get(URL, AxiosHeader)
         store.dispatch(HideLoader())
-        store.dispatch(SetInfoList(result.data))
+        store.dispatch(SetBooking(result.data))
         return result
     }
     catch (e) {
