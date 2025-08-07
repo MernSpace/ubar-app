@@ -1,0 +1,82 @@
+@media (max-width:992px) {
+    .about_inst .inst-img {
+        width: 100%;
+        height: 100%;
+    }
+    .about_inst .instuc_dec p {
+        font-size: 20px;
+    }
+    #whyIct .card-img h2 {
+        font-size: 25px;
+    }
+
+    .gallery{
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+    }
+@media (max-width:767px) {
+.about_inst .instuc_dec h2::after {
+    left: 0;
+    width: 100%;
+}
+
+.about_inst .instuc_dec h2 {
+    text-align: center;
+}
+
+.about_inst .instuc_dec {
+    margin-top: 60px;
+}
+
+#whyIct .whyict_desc span {
+    width: 100%;
+}
+
+#whyIct .whyict_desc span img {
+    width: 90%;
+}
+
+.whyict_desc p {
+    font-size: 18px;
+    width: 100%;
+}
+    .about_inst .instuc_dec p {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 576px) {
+.mobileWidth{
+    width: 200px;
+}
+.about_inst .inst-img {
+    width: 100%;
+    height: 100%;
+}
+.about_inst .instuc_dec p {
+    font-size: 20px;
+}
+#whyIct .whyict_desc h2 {
+    font-size: 22px;
+
+}
+    .copyright p {
+        font-size: 15px;
+    }
+}
+@media (max-width: 320px) {
+.mobileWidth{
+    width: 100px;
+}
+#top_bar .email i, #top_bar .email span, #top_bar .social i {
+
+    font-size: 13px;
+}
+#top_bar .email span {
+    margin-left: 0px;
+}
+.about_inst .instuc_dec h2 {
+    font-size: 26px;
+}
+}
