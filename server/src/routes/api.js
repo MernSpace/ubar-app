@@ -1,7 +1,7 @@
 const express = require('express');
 const AuthVerifyMiddleware = require("../middlewares/auth");
 const UsersController = require("../controllers/user/userController");
-const { createBooking } = require("../controllers/booking/bookingController")
+const { createBooking, bookingDetailById } = require("../controllers/booking/bookingController")
 
 const router = express.Router();
 
@@ -16,6 +16,7 @@ router.get("/RecoverVerifyOTP/:email/:otp", UsersController.RecoverVerifyOTP);
 router.post("/RecoverResetPass", UsersController.RecoverResetPass);
 //booking
 router.post("/create-booking", AuthVerifyMiddleware, createBooking)
+router.get("/booking-detail/:id", AuthVerifyMiddleware, bookingDetailById)
 
 
 

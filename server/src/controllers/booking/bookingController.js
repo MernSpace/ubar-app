@@ -1,7 +1,7 @@
 const DataModel = require("../../model/booking/bookingModel")
 exports.createBooking = async (req, res) => {
     try {
-        const { pickupL, pickupD, pickupT, dropL, riderID, status, driverID } = req.body
+        const { pickupL, pickupD, pickupT, dropL, riderID, status, driverID, distance, price } = req.body
 
         // Validate required fields
         if (!pickupL || !pickupD || !pickupT || !dropL || !riderID) {
@@ -36,14 +36,52 @@ exports.createBooking = async (req, res) => {
             dropL,
             riderID,
             status: "Waiting", // Fixed typo: was "staus"
-            driverID // Include driverID if provided
+            driverID,
+            distance,
+            price
         });
 
         res.status(201).json({
             status: "success", // Fixed typo: was "staus"
-            message: "Booking created successfully",
             data: data
         });
+
+    } catch (error) {
+        console.error("Booking creation error:", error);
+
+        // Handle specific mongoose validation errors
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                status: "fail",
+                message: "Validation error",
+                errors: Object.values(error.errors).map(err => err.message)
+            });
+        }
+
+        // Handle duplicate key errors
+        if (error.code === 11000) {
+            return res.status(400).json({
+                status: "fail",
+                message: "Duplicate entry found"
+            });
+        }
+
+        res.status(500).json({
+            status: "error",
+            message: "Internal server error"
+        });
+    }
+}
+
+
+exports.bookingDetailById = async (req, res) => {
+    try {
+        const booking = await DataModel.findById(req.params.id).populate("riderID");
+        if (!booking) {
+            return res.status(404).json({ status: "fail", message: "Booking not found" });
+        }
+        res.status(200).json({ status: "success", data: booking });
+
 
     } catch (error) {
         console.error("Booking creation error:", error);

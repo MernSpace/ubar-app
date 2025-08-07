@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ErrorToast, SuccessToast } from "../helper/FormHelper";
 import store from "../redux/store/store";
-import { HideLoader, ShowLoader } from "../redux/state-slice/settings-slice";
+import { HideLoader, ShowLoader } from "../redux/state-slice/setting-slice";
 import { getToken, setEmail, setOTP, setToken, setUserDetails } from "../helper/SessionHelper";
 import { SetProfile } from "../redux/state-slice/profile-slice";
 import { BaseURL } from "../helper/config";
@@ -98,12 +98,12 @@ export async function GetProfileDetails() {
     }
 }
 
-export async function ProfileUpdateRequest(email, firstName, lastName, mobile, photo) {
+export async function ProfileUpdateRequest(email, firstName, lastName, mobile, photo, address) {
     try {
         store.dispatch(ShowLoader())
         let URL = BaseURL + "/ProfileUpdate";
-        let PostBody = { email: email, firstName: firstName, lastName: lastName, mobile: mobile, photo: photo }
-        let UserDetails = { email: email, firstName: firstName, lastName: lastName, mobile: mobile, photo: photo };
+        let PostBody = { email: email, firstName: firstName, lastName: lastName, mobile: mobile, photo: photo, address: address }
+        let UserDetails = { email: email, firstName: firstName, lastName: lastName, mobile: mobile, photo: photo, address: address };
         let res = await axios.post(URL, PostBody, AxiosHeader);
         store.dispatch(HideLoader())
         if (res.status === 200) {

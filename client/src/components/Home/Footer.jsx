@@ -1,51 +1,11 @@
-import React, { useEffect } from 'react';
-import { ReadFooterInfoRequest } from "../../APIRequest/footerApiRequest.js";
-import { useSelector } from "react-redux";
-import store from "../../redux/store/store.js";
+
 import { FaCar, FaFacebook, FaLinkedin, FaPhoneAlt } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { OnChangeSubscribeInput, ResetFormValue } from "../../redux/state-slice/subscribe-slice.js";
-import { ErrorToast, IsEmpty } from "../../helper/FormHelper.js";
-import { CreateSubscribeRequest } from "../../APIRequest/subscribeApiRequest.js";
-import { Toaster } from "react-hot-toast";
-import { useDispatch } from 'react-redux';
+
 const Footer = () => {
-    const dispatch = useDispatch();
-    let FormValue = useSelector((state) => (state.subscribe.SubscribeFormValue));
-
-    useEffect(() => {
-        (async () => {
-            await ReadFooterInfoRequest()
-        })();
-    }, []);
-
-    let DataList = useSelector((state) => (state.footer.footerData));
-    // if (!DataList || DataList.length === 0) {
-    //     return (
-    //         <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-    //             <div className="spinner-border" role="status">
-    //                 <span className="visually-hidden">Loading...</span>
-    //             </div>
-    //         </div>
-    //     );
-    // }
-    const save = async () => {
-        if (IsEmpty(FormValue.name)) {
-            ErrorToast("Name Required!");
-        } else if (IsEmpty(FormValue.email)) {
-            ErrorToast("Email Required!");
-        } else if (IsEmpty(FormValue.massage)) {
-            ErrorToast("Massage Required!");
-        } else {
-            await CreateSubscribeRequest(FormValue);
-            dispatch(ResetFormValue());
-        }
-    }
-
-
     return (
         <footer className="bg-dark text-white py-5">
             <div className="container">

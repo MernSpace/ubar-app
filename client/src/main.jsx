@@ -7,7 +7,6 @@ import './assets/css/bootstrap.css'
 import "./assets/css/style.css";
 import 'leaflet/dist/leaflet.css';
 
-import { Toast } from "react-bootstrap";
 import { Toaster } from "react-hot-toast";
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);

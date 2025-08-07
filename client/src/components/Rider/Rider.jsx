@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 import { User, Calendar, Settings, History, CreditCard, Bell, MapPin, Phone, Mail, Edit3, Star, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { ProfileInfo } from './Profile-info';
+import { getUserDetails } from '../../helper/SessionHelper';
 
 const RiderProfile = () => {
     const [activeTab, setActiveTab] = useState('profile');
-    const [isEditing, setIsEditing] = useState(false);
-    const [userInfo, setUserInfo] = useState({
-        name: 'Sarah Johnson',
-        email: 'sarah.johnson@email.com',
-        phone: '+1 (555) 123-4567',
-        location: 'New York, NY',
-        joinDate: 'March 2023',
-        avatar: 'https://images.unsplash.com/photo-1494790108755-2616b9e0e4cd?w=150&h=150&fit=crop&crop=face'
-    });
+    const user = getUserDetails()
 
     // Demo booking data
     const bookings = [
@@ -84,153 +78,11 @@ const RiderProfile = () => {
         }
     };
 
-    const handleInputChange = (field, value) => {
-        setUserInfo(prev => ({ ...prev, [field]: value }));
-    };
+
 
     const renderProfileContent = () => (
         <div className="card">
-            <div className="card-body p-4">
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                    <h2 className="card-title h3 mb-0">My Profile</h2>
-                    <button
-                        onClick={() => setIsEditing(!isEditing)}
-                        className="btn btn-primary d-flex align-items-center gap-2"
-                    >
-                        <Edit3 size={16} />
-                        {isEditing ? 'Save Changes' : 'Edit Profile'}
-                    </button>
-                </div>
-
-                <div className="row">
-                    <div className="col-md-3 text-center mb-4">
-                        <img
-                            src={userInfo.avatar}
-                            alt="Profile"
-                            className="rounded-circle mb-3"
-                            style={{ width: '120px', height: '120px', objectFit: 'cover' }}
-                        />
-                        {isEditing && (
-                            <div>
-                                <button className="btn btn-outline-primary btn-sm">
-                                    Change Photo
-                                </button>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="col-md-9">
-                        <div className="row">
-                            <div className="col-md-6 mb-3">
-                                <label className="form-label fw-semibold">Full Name</label>
-                                {isEditing ? (
-                                    <input
-                                        type="text"
-                                        value={userInfo.name}
-                                        onChange={(e) => handleInputChange('name', e.target.value)}
-                                        className="form-control"
-                                    />
-                                ) : (
-                                    <div className="input-group">
-                                        <span className="input-group-text bg-light">
-                                            <User size={18} />
-                                        </span>
-                                        <input type="text" className="form-control" value={userInfo.name} readOnly />
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="col-md-6 mb-3">
-                                <label className="form-label fw-semibold">Email Address</label>
-                                {isEditing ? (
-                                    <input
-                                        type="email"
-                                        value={userInfo.email}
-                                        onChange={(e) => handleInputChange('email', e.target.value)}
-                                        className="form-control"
-                                    />
-                                ) : (
-                                    <div className="input-group">
-                                        <span className="input-group-text bg-light">
-                                            <Mail size={18} />
-                                        </span>
-                                        <input type="email" className="form-control" value={userInfo.email} readOnly />
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="col-md-6 mb-3">
-                                <label className="form-label fw-semibold">Phone Number</label>
-                                {isEditing ? (
-                                    <input
-                                        type="tel"
-                                        value={userInfo.phone}
-                                        onChange={(e) => handleInputChange('phone', e.target.value)}
-                                        className="form-control"
-                                    />
-                                ) : (
-                                    <div className="input-group">
-                                        <span className="input-group-text bg-light">
-                                            <Phone size={18} />
-                                        </span>
-                                        <input type="tel" className="form-control" value={userInfo.phone} readOnly />
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="col-md-6 mb-3">
-                                <label className="form-label fw-semibold">Location</label>
-                                {isEditing ? (
-                                    <input
-                                        type="text"
-                                        value={userInfo.location}
-                                        onChange={(e) => handleInputChange('location', e.target.value)}
-                                        className="form-control"
-                                    />
-                                ) : (
-                                    <div className="input-group">
-                                        <span className="input-group-text bg-light">
-                                            <MapPin size={18} />
-                                        </span>
-                                        <input type="text" className="form-control" value={userInfo.location} readOnly />
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <hr className="my-4" />
-
-                <div className="row">
-                    <div className="col-md-4 mb-3">
-                        <div className="card bg-primary bg-opacity-10 border-0">
-                            <div className="card-body text-center">
-                                <h3 className="text-primary fw-bold mb-1">24</h3>
-                                <p className="text-primary mb-0">Total Bookings</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-4 mb-3">
-                        <div className="card bg-success bg-opacity-10 border-0">
-                            <div className="card-body text-center">
-                                <h3 className="text-success fw-bold mb-1">18</h3>
-                                <p className="text-success mb-0">Completed</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-4 mb-3">
-                        <div className="card bg-warning bg-opacity-10 border-0">
-                            <div className="card-body text-center">
-                                <h3 className="text-warning fw-bold mb-1 d-flex align-items-center justify-content-center">
-                                    4.8 <Star size={16} className="ms-1 text-warning" fill="currentColor" />
-                                </h3>
-                                <p className="text-warning mb-0">Average Rating</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ProfileInfo />
         </div>
     );
 
@@ -439,13 +291,13 @@ const RiderProfile = () => {
                         <div className="p-4 border-bottom">
                             <div className="d-flex align-items-center">
                                 <img
-                                    src={userInfo.avatar}
+                                    src={user.photo}
                                     alt="Profile"
                                     className="rounded-circle me-3"
                                     style={{ width: '48px', height: '48px', objectFit: 'cover' }}
                                 />
                                 <div>
-                                    <div className="fw-semibold">{userInfo.name}</div>
+                                    <div className="fw-semibold">{user.name}</div>
                                     <small className="text-muted">Premium Member</small>
                                 </div>
                             </div>
@@ -459,8 +311,8 @@ const RiderProfile = () => {
                                         key={item.id}
                                         onClick={() => setActiveTab(item.id)}
                                         className={`btn w-100 text-start mb-2 d-flex align-items-center gap-2 ${activeTab === item.id
-                                                ? 'btn-primary'
-                                                : 'btn-outline-light text-dark border-0 hover-bg-light'
+                                            ? 'btn-primary'
+                                            : 'btn-outline-light text-dark border-0 hover-bg-light'
                                             }`}
                                         style={activeTab !== item.id ? { backgroundColor: 'transparent' } : {}}
                                         onMouseEnter={(e) => {
