@@ -109,3 +109,27 @@ exports.bookingDetailById = async (req, res) => {
         });
     }
 }
+
+
+exports.bookingByUser = async (req, res) => {
+    try {
+        const userId = req.params.id; // extracted from auth middleware
+
+        const bookings = await DataModel
+            .find({ riderID: userId })
+            .populate("riderID", "name email phone") // optional, to show user details
+            .sort({ createdDate: -1 }); // newest first
+
+        res.status(200).json({
+            status: "success",
+            data: bookings
+        });
+
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({
+            status: "error",
+            message: "Internal server error"
+        });
+    }
+};

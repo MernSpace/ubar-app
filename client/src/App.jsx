@@ -13,6 +13,7 @@ import Page404 from "./pages/NotFound/Page404.jsx";
 import HomePage from "./pages/HomePage/HomePage.jsx";
 import RiderPage from './pages/RiderPage/RiderPage.jsx';
 import CheckoutPage from './pages/booking-checkout/Checkout-Page.jsx';
+import DriverDashboard from './pages/DriverPage/DriverPage.jsx';
 
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
                     <Route exact path="/VerifyOTP" element={<VerifyOTPPage />} />
                     <Route exact path="/CreatePassword" element={<CreatePasswordPage />} />
                     <Route exact path='/rider-profile' element={<RiderPage />} />
+                    <Route exact path="/driver-dashboard" element={<DriverDashboard />} />
                     <Route path="/checkout/:bookingId" element={<CheckoutPage />} />
                     <Route exact path="/Dashboard" element={<DashboardPage />} />
                     <Route exact path="/Profile" element={<ProfilePage />} />

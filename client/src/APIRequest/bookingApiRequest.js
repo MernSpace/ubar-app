@@ -4,7 +4,7 @@ import axios from "axios";
 import { ErrorToast, SuccessToast } from "../helper/FormHelper";
 import { getToken } from "../helper/SessionHelper";
 import { BaseURL } from "../helper/config";
-import { SetBooking } from "../redux/state-slice/booking-slice";
+import { SetBooking, SetUserBooking } from "../redux/state-slice/booking-slice";
 const AxiosHeader = { headers: { "token": getToken() } }
 
 
@@ -38,6 +38,21 @@ export async function BookingDetailRequest(ObjectID) {
         const result = await axios.get(URL, AxiosHeader)
         store.dispatch(HideLoader())
         store.dispatch(SetBooking(result.data))
+        return result
+    }
+    catch (e) {
+        ErrorToast("Something Went Wrong")
+        store.dispatch(HideLoader())
+    }
+}
+export async function UserBookingDetailRequest(ObjectID) {
+    try {
+        store.dispatch(ShowLoader());
+        let URL = BaseURL + "/booking-by-user/" + ObjectID;
+        const result = await axios.get(URL, AxiosHeader)
+        debugger
+        store.dispatch(HideLoader())
+        store.dispatch(SetUserBooking(result.data.data))
         return result
     }
     catch (e) {

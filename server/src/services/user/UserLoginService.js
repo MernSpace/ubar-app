@@ -12,7 +12,7 @@ const UserLoginService = async (Email, password, DataModel) => {
         }
 
         // Find user by email
-        const user = await DataModel.findOne({ email: Email });
+        const user = await DataModel.findOne({ email: Email }).select("+password");;
 
         if (!user) {
             return {
@@ -42,9 +42,10 @@ const UserLoginService = async (Email, password, DataModel) => {
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
-            mobile: user.mobile,
+            phone: user.phone,
             photo: user.photo,
-            id: user.id
+            id: user.id,
+            role: user.role
         };
 
         return {

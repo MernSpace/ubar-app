@@ -19,7 +19,7 @@ const Registration = () => {
         const email = emailRef.current.value;
         const firstName = firstNameRef.current.value;
         const lastName = lastNameRef.current.value;
-        const mobile = mobileRef.current.value;
+        const phone = mobileRef.current.value;
         const password = passwordRef.current.value;
         const role = roleRef.current.value;
         const address = addressRef.current.value;
@@ -32,7 +32,7 @@ const Registration = () => {
             return ErrorToast("First Name Required!");
         } else if (IsEmpty(lastName)) {
             return ErrorToast("Last Name Required!");
-        } else if (!IsMobile(mobile)) {
+        } else if (!IsMobile(phone)) {
             return ErrorToast("Valid Mobile Required!");
         } else if (IsEmpty(password)) {
             return ErrorToast("Password Required!");
@@ -42,7 +42,7 @@ const Registration = () => {
             return ErrorToast("Address Required!");
         }
 
-        const result = await RegistrationRequest(email, firstName, lastName, mobile, password, photo, role, address);
+        const result = await RegistrationRequest(email, firstName, lastName, phone, password, photo, role, address);
         if (result === true) {
             navigate("/login");
         }

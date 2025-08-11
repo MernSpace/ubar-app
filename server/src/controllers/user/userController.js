@@ -45,7 +45,7 @@ exports.Registration = async (req, res) => {
         // 5. Return success (omit password)
         const { password: _, ...userWithoutPassword } = user.toObject();
 
-        let token = CreateToken(userWithoutPassword);
+        let token = await CreateToken(userWithoutPassword);
 
         res.status(201).json({
             status: "success",
@@ -78,27 +78,7 @@ exports.login = async (req, res) => {
             });
         }
 
-        // Check if user exists
-        const user = await DataModel.findOne({ email: email });
-        if (!user) {
-            return res.status(401).json({
-                status: "fail",
-                message: "Invalid credentials"
-            });
-        }
-
-        // Compare provided password with stored hash
-        const isPasswordCorrect = await bcrypt.compare(password, user.password);
-        if (!isPasswordCorrect) {
-            return res.status(401).json({
-                status: "fail",
-                message: "Invalid credentials"
-            });
-        }
-
-        // If credentials are correct, proceed with login service
-        // Pass the entire request to maintain the original service structure
-        let Result = await UserLoginService(req.body.email, req.body.password, DataModel);
+        let Result = await UserLoginService(email, password, DataModel);
         res.status(200).json(Result);
 
     } catch (e) {

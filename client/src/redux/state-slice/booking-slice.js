@@ -4,6 +4,7 @@ export const bookingSlice = createSlice({
     initialState: {
         BookingData: [],
         BookingDetail: [],
+        UserBooking: [],
         BookingFormValue: {
             pickupL: "",
             pickupD: "",
@@ -26,8 +27,11 @@ export const bookingSlice = createSlice({
         SetBooking: (state, action) => {
             state.BookingDetail = action.payload
         },
+        SetUserBooking: (state, action) => {
+            state.UserBooking = action.payload
+        },
     }
 })
 
-export const { OnChangeBookingInput, SetBookingList, SetBooking } = bookingSlice.actions;
+export const { OnChangeBookingInput, SetBookingList, SetBooking, SetUserBooking } = bookingSlice.actions;
 export default bookingSlice.reducer;

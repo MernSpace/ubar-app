@@ -21,6 +21,13 @@ export async function LoginRequest(email, password) {
 
         setUserDetails(res.data['data']);
         SuccessToast("Login Success")
+
+        if (res.data['data'].role === "driver") {
+            window.location.href = "/driver-dashboard";
+        }
+        if (res.data['data'].role === "riders") {
+            window.location.href = "/rider-profile";
+        }
         store.dispatch(HideLoader())
         return true;
     }
