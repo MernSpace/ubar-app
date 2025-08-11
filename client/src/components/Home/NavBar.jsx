@@ -109,10 +109,16 @@ const NavBar = () => {
                                         <h6>{getUserDetails()['firstName'] || 'User'}</h6>
                                         <hr className="user-dropdown-divider p-0" />
                                     </div>
-                                    <NavLink to="/profile" className="side-bar-item">
-                                        <AiOutlineUser className="side-bar-item-icon" />
-                                        <span className="side-bar-item-caption">Profile</span>
-                                    </NavLink>
+                                    {
+                                        getUserDetails()['role'] === "driver" ? <NavLink to="/driver-dashboard" className="side-bar-item">
+                                            <AiOutlineUser className="side-bar-item-icon" />
+                                            <span className="side-bar-item-caption">Profile</span>
+                                        </NavLink>
+                                            : <NavLink to="/rider-profile" className="side-bar-item">
+                                                <AiOutlineUser className="side-bar-item-icon" />
+                                                <span className="side-bar-item-caption">Profile</span>
+                                            </NavLink>
+                                    }
                                     <button onClick={onLogout} className="side-bar-item btn-link">
                                         <AiOutlineLogout className="side-bar-item-icon" />
                                         <span className="side-bar-item-caption">Logout</span>

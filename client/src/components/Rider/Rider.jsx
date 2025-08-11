@@ -2,54 +2,14 @@ import React, { useState } from 'react';
 import { User, Calendar, Settings, History, CreditCard, Bell, MapPin, Phone, Mail, Edit3, Star, Clock, CheckCircle, XCircle } from 'lucide-react';
 import { ProfileInfo } from './Profile-info';
 import { getUserDetails } from '../../helper/SessionHelper';
+import { RiderBookingHistory } from './Rider-booking-history';
 
 const RiderProfile = () => {
     const [activeTab, setActiveTab] = useState('profile');
     const user = getUserDetails()
 
     // Demo booking data
-    const bookings = [
-        {
-            id: 'BK001',
-            service: 'Luxury Spa Package',
-            date: '2024-08-15',
-            time: '2:00 PM',
-            status: 'confirmed',
-            price: '$299',
-            location: 'Serenity Spa & Wellness',
-            image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=80&h=80&fit=crop'
-        },
-        {
-            id: 'BK002',
-            service: 'Hair Styling & Color',
-            date: '2024-08-12',
-            time: '11:00 AM',
-            status: 'completed',
-            price: '$185',
-            location: 'Elite Hair Studio',
-            image: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=80&h=80&fit=crop'
-        },
-        {
-            id: 'BK003',
-            service: 'Personal Training Session',
-            date: '2024-08-10',
-            time: '6:00 AM',
-            status: 'completed',
-            price: '$75',
-            location: 'FitLife Gym',
-            image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=80&h=80&fit=crop'
-        },
-        {
-            id: 'BK004',
-            service: 'Yoga Class',
-            date: '2024-08-08',
-            time: '7:00 PM',
-            status: 'cancelled',
-            price: '$25',
-            location: 'Zen Yoga Studio',
-            image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=80&h=80&fit=crop'
-        }
-    ];
+
 
     const sidebarItems = [
         { id: 'profile', label: 'My Profile', icon: User },
@@ -60,23 +20,9 @@ const RiderProfile = () => {
         { id: 'settings', label: 'Settings', icon: Settings }
     ];
 
-    const getStatusIcon = (status) => {
-        switch (status) {
-            case 'confirmed': return <CheckCircle className="me-1" size={16} color="#198754" />;
-            case 'completed': return <CheckCircle className="me-1" size={16} color="#0d6efd" />;
-            case 'cancelled': return <XCircle className="me-1" size={16} color="#dc3545" />;
-            default: return <Clock className="me-1" size={16} color="#ffc107" />;
-        }
-    };
 
-    const getStatusBadge = (status) => {
-        switch (status) {
-            case 'confirmed': return 'success';
-            case 'completed': return 'primary';
-            case 'cancelled': return 'danger';
-            default: return 'warning';
-        }
-    };
+
+
 
 
 
@@ -88,49 +34,7 @@ const RiderProfile = () => {
 
     const renderBookingHistory = () => (
         <div className="card">
-            <div className="card-header bg-white">
-                <h2 className="card-title h3 mb-1">Booking History</h2>
-                <p className="text-muted mb-0">View all your past and current bookings</p>
-            </div>
-            <div className="card-body">
-                {bookings.map((booking) => (
-                    <div key={booking.id} className="card mb-3 border">
-                        <div className="card-body">
-                            <div className="row align-items-center">
-                                <div className="col-auto">
-                                    <img
-                                        src={booking.image}
-                                        alt={booking.service}
-                                        className="rounded"
-                                        style={{ width: '64px', height: '64px', objectFit: 'cover' }}
-                                    />
-                                </div>
-                                <div className="col">
-                                    <h5 className="card-title mb-1">{booking.service}</h5>
-                                    <p className="text-muted mb-2">{booking.location}</p>
-                                    <div className="d-flex gap-3">
-                                        <small className="text-muted d-flex align-items-center">
-                                            <Calendar size={14} className="me-1" />
-                                            {booking.date}
-                                        </small>
-                                        <small className="text-muted d-flex align-items-center">
-                                            <Clock size={14} className="me-1" />
-                                            {booking.time}
-                                        </small>
-                                    </div>
-                                </div>
-                                <div className="col-auto text-end">
-                                    <h5 className="mb-2">{booking.price}</h5>
-                                    <span className={`badge bg-${getStatusBadge(booking.status)} d-flex align-items-center`}>
-                                        {getStatusIcon(booking.status)}
-                                        {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
+            <RiderBookingHistory />
         </div>
     );
 

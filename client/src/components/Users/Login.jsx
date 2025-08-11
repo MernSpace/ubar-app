@@ -15,10 +15,7 @@ const Login = () => {
         } else if (IsEmpty(pass)) {
             ErrorToast("Password Required");
         } else {
-            let result = await LoginRequest(email, pass);
-            if (result) {
-                window.location.href = "/rider-profile";
-            }
+            await LoginRequest(email, pass);
         }
     };
 
